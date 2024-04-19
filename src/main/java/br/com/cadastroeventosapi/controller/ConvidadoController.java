@@ -1,0 +1,70 @@
+package br.com.cadastroeventosapi.controller;
+
+
+import br.com.cadastroeventosapi.entity.Convidado;
+import br.com.cadastroeventosapi.entity.Evento;
+import br.com.cadastroeventosapi.entity.dto.ConvidadoDTO;
+import br.com.cadastroeventosapi.entity.dto.EventoDTO;
+import br.com.cadastroeventosapi.service.ConvidadoService;
+import br.com.cadastroeventosapi.service.EventoService;
+import br.com.cadastroeventosapi.service.exceptions.ResourceNotFoundException;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping(value = "/convidado")
+public class ConvidadoController {
+
+    @Autowired
+    ConvidadoService service;
+    private final ModelMapper mapper = new ModelMapper();
+
+    @GetMapping
+    public ResponseEntity<Object>findAll(@PageableDefault(page = 0, size = 10, sort = "idConvidado", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<ConvidadoDTO> list = service.findAll(pageable);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object>findById(@PathVariable(value = "id")  Long id) {
+      Optional<ConvidadoDTO>obj = service.findById(id);
+      if (!obj.isPresent()) {
+          return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResourceNotFoundException("Entity not found - ID: " + id));
+      }
+      return ResponseEntity.status(HttpStatus.OK).body(obj.get());
+  }
+
+    @PostMapping
+    public ResponseEntity<Object>insert(@RequestBody @Valid ConvidadoDTO dto){
+        ConvidadoDTO result = mapper.map(service.insert(dto), ConvidadoDTO.class);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(dto.getIdConvidado()).toUri();
+        return ResponseEntity.created(uri).body(result);
+    }
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody @Valid ConvidadoDTO dto) {
+        dto = service.update(dto.getIdConvidado(), dto);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.ok().body("Registro deletado com sucesso!!");
+    }
+
+}
