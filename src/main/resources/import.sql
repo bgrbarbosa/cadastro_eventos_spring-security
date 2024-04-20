@@ -13,14 +13,3 @@ INSERT INTO tb_convidado(nome_convidado,rg_convidado,cpf_convidado,tel_convidado
 INSERT INTO tb_convidado(nome_convidado,rg_convidado,cpf_convidado,tel_convidado,email_convidado)VALUES ('Gabriela da Fonseca Barbosa', '1234567890', '14552202723', '24988549631', 'gaby_sampaio17@hotmail.com');
 INSERT INTO tb_convidado(nome_convidado,rg_convidado,cpf_convidado,tel_convidado,email_convidado)VALUES ('Teste Barbosa', '1234567899', '10823410706', '24988549631', 'testebarbosa@hotmail.com');
 
-INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Bruno', 'Barbosa', 'bgrbarbosa@gmail.com', '$2a$12$Wt0WVWm1wJz5pdLlrgtdL.Sl/2FVWIlxXdFAZXhgq4GoAyIQ60lx.');
-INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Alex', 'Brown', 'alex@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
-INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Maria', 'Green', 'maria@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
-
-INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
-INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
-
-INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1);
-INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 2);
-INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
-INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 2);
